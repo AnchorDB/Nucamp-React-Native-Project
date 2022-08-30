@@ -1,4 +1,4 @@
-import { Image, Text, Platform, StyleSheet, View } from "react-native";
+import { Image, Platform, StyleSheet, Text, View } from "react-native";
 import Constants from "expo-constants";
 import CampsiteInfoScreen from "./CampsiteInfoScreen";
 import DirectoryScreen from "./DirectoryScreen";
@@ -13,19 +13,22 @@ import AboutScreen from "./AboutScreen";
 import ContactScreen from "./ContactScreen";
 import { Icon } from "react-native-elements";
 import logo from "../assets/images/logo.png";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchPartners } from "../features/partners/partnersSlice";
+import { fetchCampsites } from "../features/campsites/campsitesSlice";
+import { fetchPromotions } from "../features/promotions/promotionsSlice";
+import { fetchComments } from "../features/comments/commentsSlice";
 
 const Drawer = createDrawerNavigator();
 
 const screenOptions = {
-  headerStyle: {
-    backgroundColor: "#5637DD",
-  },
   headerTintColor: "#fff",
+  headerStyle: { backgroundColor: "#5637DD" },
 };
 
 const HomeNavigator = () => {
   const Stack = createStackNavigator();
-
   return (
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen
@@ -49,7 +52,6 @@ const HomeNavigator = () => {
 
 const AboutNavigator = () => {
   const Stack = createStackNavigator();
-
   return (
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen
@@ -72,7 +74,6 @@ const AboutNavigator = () => {
 
 const ContactNavigator = () => {
   const Stack = createStackNavigator();
-
   return (
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen
@@ -131,7 +132,7 @@ const CustomDrawerContent = (props) => (
         <Image source={logo} style={styles.drawerImage} />
       </View>
       <View style={{ flex: 2 }}>
-        <Text style={styles.drawerHeaderText}>Nucamp</Text>
+        <Text style={styles.drawerHeaderText}>NuCamp</Text>
       </View>
     </View>
     <DrawerItemList {...props} labelStyle={{ fontWeight: "bold" }} />
@@ -139,6 +140,15 @@ const CustomDrawerContent = (props) => (
 );
 
 const Main = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCampsites());
+    dispatch(fetchPromotions());
+    dispatch(fetchPartners());
+    dispatch(fetchComments());
+  }, [dispatch]);
+
   return (
     <View
       style={{
