@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  Modal,
 } from "react-native";
 import { Avatar, ListItem } from "react-native-elements";
 import Loading from "../components/LoadingComponent";
